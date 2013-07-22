@@ -1,5 +1,4 @@
-js/
+.js
 node_modules/
-requests.json
 
 .DS_Store
