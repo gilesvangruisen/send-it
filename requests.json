@@ -2,40 +2,63 @@
   "requests" : {
     "/user": {
       "/:id" : {
-        "get" : {
-          "cases" : {
-            "id" : {
-              "1" : {
-                "user" : {
-                  "id" : "1",
-                  "username" : "johndoe",
-                  "email" : "john@doe.com"
-                }
-              }, "2" : {
-                "user" : {
-                  "id" : "2",
-                  "username" : "janetinker",
-                  "email" : "jane@tinker.com"
-                }
-              }, "5" : {
-                "user" : {
-                  "id" : "2",
-                  "username" : "janetinker",
-                  "email" : "jane@tinker.com"
-                }
-              }, "6" : {
-                "user" : {
-                  "id" : "2",
-                  "username" : "janetinker",
-                  "email" : "jane@tinker.com"
-                }
+        "cases" : {
+          "id" : {
+            "1" : {
+              "user" : {
+                "id" : "1",
+                "username" : "johndoe",
+                "email" : "john@doe.com"
+              }
+            }, "2" : {
+              "user" : {
+                "id" : "2",
+                "username" : "janetinker",
+                "email" : "jane@tinker.com"
+              }
+            }, "3" : {
+              "user" : {
+                "id" : "3",
+                "username" : "janetinker",
+                "email" : "jane@tinker.com"
+              }
+            }, "4" : {
+              "user" : {
+                "id" : "4",
+                "username" : "janetinker",
+                "email" : "jane@tinker.com"
               }
             }
-          }, "goodResponse" : {
+          }
+        }, "/:go" : {
+          "cases" : {
+            "go" : {
+              "2" : {
+                "response" : "BLOOP"
+              }
+            }
+          }, "get" : {
+            "goodResponse" : {
+              "response" : "good"
+            }, "badResponse" : {
+              "response" : "bad"
+            }
+          }
+        }, "/bob" : {
+          "get" : {
+            "goodResponse" : {
+              "response" : "good"
+            }, "badResponse" : {
+              "response" : "bad"
+            }
+          }
+        }, "get" : {
+          "goodResponse" : {
             "user" : {
               "id" : ":id",
               "username" : ":username",
-              "email" : ":email"
+              "email" : ":email",
+              "time" : "something arbitrary"
             }
           }, "badResponse" : {
             "error": "UserNotFound",
@@ -55,12 +78,30 @@
         }
       }, "/logout" : {
         "post" : {
-          "response" : {
+          "goodResponse" : {
             "user" : {
               "id" : ":id",
               "username" : ":username",
               "email" : ":email"
             }
+          }
+        }
+      }
+    }, "/data" : {
+      "/:chart" : {
+        "cases" : {
+          "chart" : {
+            "one" : {
+              "response" : "good"
+            }, "two" : {
+              "response" : "bad"
+            }
+          }
+        }, "get" : {
+          "goodResponse" : {
+            "response" : "good"
+          }, "badResponse" : {
+            "response" : "bad"
           }
         }
       }
