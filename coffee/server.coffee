@@ -9,14 +9,14 @@ requests = JSON.parse(requestsFile).requests
 
 respondWith = {}
 
-replaceDefaults = (response, replaceWith, returnWith) ->
+replaceDefaults = (response, replaceWith) ->
 	keys = Object.keys(response)
 	for k in keys
 		if (typeof response[k] is 'object') and (typeof replaceWith[k] is 'object')
-			replaceDefaults response[k], replaceWith[k], returnWith
+			replaceDefaults response[k], replaceWith[k]
 		else if (typeof response[k] is 'string') and (typeof replaceWith[k] is 'string')
 			response[k] = replaceWith[k]
-	return returnWith
+	return response
 
 doIt = (obj, request, response, paths) ->
 	# split paths into array
@@ -40,7 +40,7 @@ doIt = (obj, request, response, paths) ->
 					if typeof cases[key][request.params[key]] is 'object'
 						cases = cases[key][request.params[key]]
 						respondWith = obj['goodResponse']
-						respondWith = replaceDefaults respondWith, cases, respondWith
+						respondWith = replaceDefaults respondWith, cases
 					else
 						respondWith = obj['badResponse']
 				else

@@ -8,7 +8,10 @@
               "user" : {
                 "id" : "1",
                 "username" : "johndoe",
-                "email" : "john@doe.com"
+                "email" : "john@doe.com",
+                "time" : {
+                  "gmt" : "something wickedddd"
+                }
               }
             }, "2" : {
               "user" : {
@@ -58,7 +61,10 @@
               "id" : ":id",
               "username" : ":username",
               "email" : ":email",
-              "time" : "something arbitrary"
+              "time" : {
+                "gmt" : "something arbitrary",
+                "est" : "something else"
+              }
             }
           }, "badResponse" : {
             "error": "UserNotFound",
@@ -68,7 +74,7 @@
         }
       }, "/login" : {
         "post" : {
-          "response" : {
+          "goodResponse" : {
             "user" : {
               "id" : ":id",
               "username" : ":username",
