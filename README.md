@@ -12,7 +12,7 @@ Define your HTTP requests, cases, and responses in the requests.json file, or us
 
 1. `cd send-it`
 2. Install dependencies: `npm install`
-3. Compile coffee into JS: `grunt` or `grunt watch`
+3. Compile coffee into JS: `grunt` or `grunt watch` (make sure you have grunt-cli installed `npm install -g grunt-cli`)
 4. Start the server: `node server.js -e js,json`
 5. Alternatively, install nodemon globally `npm install -g nodemon` and start server with `nodemon server.js -e js,json` (this will restart your server whenever you change a JS/JSON file or type rs; nifty!)
 5. Try it out by hitting http://localhost:5000/users in your browser. Also try a "dynamic" request by hitting /users/:username, replacing :username with one of the usernames seen on the list returned by /users.
