@@ -1,113 +1,62 @@
 {
   "requests" : {
-    "/user": {
-      "/:id" : {
+    "/users" : {
+      "/:username" : {
         "cases" : {
-          "id" : {
-            "1" : {
-              "user" : {
-                "id" : "1",
-                "username" : "johndoe",
-                "email" : "john@doe.com",
-                "time" : {
-                  "gmt" : "something wickedddd"
-                }
-              }
-            }, "2" : {
-              "user" : {
+          "username" : {
+            "giles" : {
+              "id" : "1",
+              "username" : "giles",
+              "email" : "giles@example.com"
+            },
+            "alex" : {
+              "id" : "2",
+              "username" : "alex",
+              "email" : "alex@example.com"
+            },
+            "matt" : {
+              "id" : "3",
+              "username" : "matt",
+              "email" : "matt@example.com"
+            },
+            "lulu" : {
+              "id" : "4",
+              "username" : "lulu",
+              "email" : "lulu@example.com"
+            }
+          }
+        },
+        "get" : {
+          "success" : {
+            "id" : ":id",
+            "username" : ":username",
+            "email" : ":email"
+          }
+        }
+      },
+      "get" : {
+        "success" : {
+          "users" : {
+           "giles" : {
+              "id" : "1",
+              "username" : "giles",
+              "email" : "giles@example.com"
+            },
+            "alex" : {
                 "id" : "2",
-                "username" : "janetinker",
-                "email" : "jane@tinker.com"
-              }
-            }, "3" : {
-              "user" : {
-                "id" : "3",
-                "username" : "janetinker",
-                "email" : "jane@tinker.com"
-              }
-            }, "4" : {
-              "user" : {
-                "id" : "4",
-                "username" : "janetinker",
-                "email" : "jane@tinker.com"
-              }
+                "username" : "alex",
+                "email" : "alex@example.com"
+            },
+            "matt" : {
+              "id" : "3",
+              "username" : "matt",
+              "email" : "matt@example.com"
+            },
+            "lulu" : {
+              "id" : "4",
+              "username" : "lulu",
+              "email" : "lulu@example.com"
             }
-          }
-        }, "/:go" : {
-          "cases" : {
-            "go" : {
-              "2" : {
-                "response" : "BLOOP"
-              }
-            }
-          }, "get" : {
-            "goodResponse" : {
-              "response" : "good"
-            }, "badResponse" : {
-              "response" : "bad"
-            }
-          }
-        }, "/bob" : {
-          "get" : {
-            "goodResponse" : {
-              "response" : "good"
-            }, "badResponse" : {
-              "response" : "bad"
-            }
-          }
-        }, "get" : {
-          "goodResponse" : {
-            "user" : {
-              "id" : ":id",
-              "username" : ":username",
-              "email" : ":email",
-              "time" : {
-                "gmt" : "something arbitrary",
-                "est" : "something else"
-              }
-            }
-          }, "badResponse" : {
-            "error": "UserNotFound",
-            "description": "This user does not exist for this app backend",
-            "debug": ""
-          }
-        }
-      }, "/login" : {
-        "post" : {
-          "goodResponse" : {
-            "user" : {
-              "id" : ":id",
-              "username" : ":username",
-              "email" : ":email"
-            }
-          }
-        }
-      }, "/logout" : {
-        "post" : {
-          "goodResponse" : {
-            "user" : {
-              "id" : ":id",
-              "username" : ":username",
-              "email" : ":email"
-            }
-          }
-        }
-      }
-    }, "/data" : {
-      "/:chart" : {
-        "cases" : {
-          "chart" : {
-            "one" : {
-              "response" : "good"
-            }, "two" : {
-              "response" : "bad"
-            }
-          }
-        }, "get" : {
-          "goodResponse" : {
-            "response" : "good"
-          }, "badResponse" : {
-            "response" : "bad"
           }
         }
       }
