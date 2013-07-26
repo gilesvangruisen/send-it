@@ -3,6 +3,14 @@
 ##What
 send-it lets you explicity define http requests and the responses they should yield.
 
+##Get going
+1. Clone, fork, or download: `git clone git@github.com:gilesvangruisen/send-it.git`
+2. `cd send-it`
+3. Install dependencies: `npm install`
+4. Compile coffee into JS: `grunt` or `grunt watch`
+5. Start the server: `nodemon server.js -e js,json` (nodemon will restart your server whenever you make changes to the json file, or when you type `rs` - Nifty!)
+Define your HTTP requests, cases, and responses in the requests.json file, or use the default to test drive with a couple GET requests.
+
 ##Why
 tl;dr I needed a fast, fake, locally run "api" for running tests with angular and karma
 I built send-it because the JS library for our backend library (specifically [Kinvey](http://kinvey.com/)) does not play well with AngularJS's super cool $httpBackend service for hijacking HTTP requests. This means when we run tests, we're sending real requests to our backend API, albeit not our production app, but nevertheless real requests over the real internets. This resulted in our tests running incredibly inconsistently because we were throwing dozens of http requests to our backend in a matter of seconds. And that's not cool. The more requests, the longer they take, and the less likely they are to succeed. If our http requests fail, there's no way we can safely trust our tests to pass or fail as they are supposed to.
