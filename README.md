@@ -4,12 +4,15 @@
 send-it lets you explicity define http requests and the responses they should yield.
 
 ##Get going
-1. Clone, fork, or download: `git clone git@github.com:gilesvangruisen/send-it.git`
-2. `cd send-it`
-3. Install dependencies: `npm install`
-4. Compile coffee into JS: `grunt` or `grunt watch`
-5. Start the server: `nodemon server.js -e js,json` (nodemon will restart your server whenever you make changes to the json file, or when you type `rs` - Nifty!)
+Clone, fork, or download: `git clone git@github.com:gilesvangruisen/send-it.git`
+
 Define your HTTP requests, cases, and responses in the requests.json file, or use the default to test drive with a couple GET requests.
+
+1. `cd send-it`
+2. Install dependencies: `npm install`
+3. Compile coffee into JS: `grunt` or `grunt watch`
+4. Start the server: `nodemon server.js -e js,json` (nodemon will restart your server whenever you make changes to the json file, or when you type `rs` - Nifty!)
+5. Try it out by hitting http://localhost:5000/users in your browser. Also try a "dynamic" request by hitting /users/:username, replacing :username with one of the usernames seen on the list returned by /users.
 
 ##Why
 tl;dr I needed a fast, fake, locally run "api" for running tests with angular and karma
