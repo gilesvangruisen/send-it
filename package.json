@@ -4,6 +4,7 @@
     "grunt": "~0.4.1",
     "grunt-contrib-watch": "~0.5.1",
     "grunt-contrib-coffee": "~0.7.0",
-    "nodemon": "~0.7.8"
+    "nodemon": "~0.7.8",
+    "cors": "~1.0.1"
   }
 }

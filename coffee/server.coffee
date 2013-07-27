@@ -1,8 +1,14 @@
 express = require "express"
+cors = require "cors"
 fs = require "fs"
 
 app = express()
 app.use express.logger()
+app.use express.bodyParser()
+
+# allow CORS
+app.use cors()
+app.use app.router
 
 requestsFile = fs.readFileSync 'requests.json'
 requests = JSON.parse(requestsFile).requests
@@ -29,53 +35,48 @@ clone = (obj) ->
 
 replaceDefaults = (response, replaceWith) ->
 	keys = Object.keys(response)
-	for k in keys
-		if (typeof response[k] is 'object') and (typeof replaceWith[k] is 'object')
-			replaceDefaults response[k], replaceWith[k]
-		else if (typeof response[k] is 'string') and (typeof replaceWith[k] is 'string')
-			response[k] = replaceWith[k]
+	if typeof response is 'object' and typeof replaceWith is 'object'
+		for k in keys
+			if (typeof response[k] is 'object') and (typeof replaceWith[k] is 'object')
+				replaceDefaults response[k], replaceWith[k]
+			else if (typeof response[k] is 'string') and (typeof replaceWith[k] is 'string')
+				response[k] = replaceWith[k]
+	else if ['string', 'boolean', 'number'].indexOf(typeof replaceWith) isnt -1
+		response = replaceWith
 	response
 
 doIt = (obj, request, response, paths) ->
-	# split paths into array
-	# console.log request
+	if request.method is "POST"
+		post = true
+		get = false
+		params = request.body
+	else if request.method is "GET"
+		post = false
+		get = true
+		params = request.params
+
 	paths = paths.split(',')
-	# check for parameters
-	if Object.keys(request.params).length
-		# if parameters, lets iterate through
-		for key, value of request.params
-			# iterate through paths
-			for path in paths
-				keyToMatch = null
-				keyToMatch = path.substr(2, path.length-2)
-				# check for match
-				if key == keyToMatch
-					num = paths.indexOf('/:'+keyToMatch)
-					cases = null
-					cases = clone(requests)
-					# if path matches param key, iterate through to get the proper cases
-					for i in [0..num]
-						cases = cases[paths[i]]
-					thisCase = cases['cases'][key][request.params[key]]
-					# with cases, look for match with parameter value
-					if thisCase isnt undefined
-						# if match, check response type
-						if typeof obj['success'] is 'object' and typeof thisCase is 'object'
-							# if object, lets go through recursive replaceDefaults
-							respondWith = clone(obj['success'])
-							respondWith = replaceDefaults respondWith, thisCase
-						else if ['string', 'boolean', 'number'].indexOf(typeof obj['success']) isnt -1
-							# replace if string, even if thisCase is of diff type
-							respondWith = clone(thisCase)
-						else
-							respondWith = clone(obj['success'])
-					else
-						respondWith = clone(obj['failure']) || "Invalid Request"
+	if Object.keys(params).length > 0
+		cases = null
+		cases = clone(requests)
+		for i in [0...paths.length]
+			cases = cases[paths[i]]
+		responseTemplates = cases[request.method.toLowerCase()]
+		cases = cases['cases']
+		paramKeys = Object.keys params
+		caseKeys = Object.keys cases
+		for parKey in paramKeys
+			if typeof cases[parKey] isnt 'undefined'
+				keyOptionsForCaseKey = Object.keys cases[parKey]
+				if keyOptionsForCaseKey.indexOf(params[parKey]) isnt -1
+					thisCase = clone cases[parKey][params[parKey]]
+					respondWith = clone(responseTemplates['success'])
+					respondWith = replaceDefaults respondWith, thisCase
 				else
-					# if not, something's wrong, return hard bad response
-					respondWith = clone(obj['failure']) || "Invalid Request"
+					respondWith = responseTemplates['failure']
+			else
+				respondWith = responseTemplates['failure']
 	else
-		# if not, return hard good response
 		respondWith = clone(obj['success'])
 
 	sendIt request, response, respondWith
@@ -96,7 +97,7 @@ sendIt = (request, response, respondWith) ->
 	console.log "                   URL : " + request.url
 	console.log "           STATUS CODE : " + request.statusCode
 	console.log "            PARAMETERS : "
-	console.log request.params
+	console.log request.body
 	console.log "\n========================================================="
 	console.log "======================   RESPONSE   ====================="
 	console.log "=========================================================\n"
@@ -130,9 +131,11 @@ buildPath = (obj, paths) ->
 		else
 			url = paths.join ''
 			if k is 'get'
+				# cp = Object.keys v['cases']
 				receiveItGet url, v, paths.join()
 				console.log '        GET   ->  ' + url
 			else if k is 'post'
+				# cp = Object.keys v['cases']
 				receiveItPost url, v, paths.join()
 				console.log '        POST  ->  ' + url
 
